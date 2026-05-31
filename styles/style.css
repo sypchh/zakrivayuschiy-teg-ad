@@ -1,376 +1,336 @@
-/* Здесь вы напишете основную часть стилей страницы.
-
-Будьте внимательны! Для корректной работы скриптов на этом сайте нужно, чтобы в HTML некоторые классы были названы особым образом:
-✦ like-icon — для svg-иконки анимированного сердца
-✦ card__like-button — для кнопки Like рядом с иконкой
-✦ card__icon-button — для кнопки, оборачивающей иконку
-✦ is-liked — для обозначения состояния лайкнутой иконки в виде сердца
-✦ button__text — для обозначения текстового элемента внутри кнопки
-
-*/
+.dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.7);
+}
 
 .page {
   min-inline-size: 320px;
   min-block-size: 100dvb;
-  font-variation-settings: 'wght' var(--main-card-font-weight, 400);
-  font-family: var(--main-font), sans-serif;
-  background-attachment: fixed;
-  background-image: var(--body-gradient);
-  background-color: white;
+  font-family: Inter-Variable, sans-serif;
+  font-variation-settings: "wght" 400;
+  font-size: var(--font-size);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #1a1a1a;
+  background-image:
+    repeating-linear-gradient(transparent, #d3d3d3 2px),
+    repeating-linear-gradient(90deg, transparent, #d3d3d3 2px),
+    linear-gradient(#e7e7e7, #1a1a1a);
+  background-size: cover;
 }
 
-.header {
+.dialog {
+  border: none;
+  outline: 2px solid #000;
+  inline-size: 357px;
+  block-size: 193px;
+  box-sizing: border-box;
+}
+
+.dialog[open] {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  font-family: "PressStart2P-Regular";
+  font-size: 14px;
+  top: 50%;
+  z-index: 1000;
+}
+
+.dialog__close {
+  position: relative;
+  border: none;
+  outline: 2px solid #000;
+  inline-size: var(--width-dialog-button-close);
+  block-size: 38px;
+  background-color: #fff;
+  transition: box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.dialog__text-conteiner {
   display: flex;
   gap: 20px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid black;
-  background-color: white;
-  font-family: var(--accent-font);
-  margin: 100px auto;
-  inline-size: calc((700 / 1440) * 100vw);
-  block-size: calc((368 / 960) * 100vh);
 }
 
-.header__logo {
-  font-size: clamp(3.0625rem, 2.7104rem + 1.5023vw, 4.0625rem);
+.dialog__text-conteiner__disketto {
+  width: 45px;
 }
 
-.header__title {
-  font-size: clamp(0.875rem, 0.6769rem + 0.8451vw, 1.4375rem);
+.dialog__text-conteiner__text {
+  line-height: 150%;
   text-transform: uppercase;
+  width: var(--width-dialog-text);
 }
 
-.main {
-  display: grid;
-  justify-content: center;
+.main-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: var(--width-main);
   gap: 50px;
 }
 
+.card-welcome {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  block-size: var(--height-welcome);
+  background-color: #fff;
+  inline-size: var(--width-main);
+  margin: 100px 0;
+  box-sizing: border-box;
+  border: 2px solid #000;
+}
+
+.card-welcome-h1 {
+  font-family: "PressStart2P-Regular";
+  font-size: var(--h1-welcome);
+}
+
+.card-welcome-h2 {
+  font-family: "PressStart2P-Regular";
+  font-size: var(--h2-welcome);
+  text-transform: uppercase;
+}
+
 .card {
-  inline-size: calc((700 / 1440) * 100vw);
-  border: 2px solid black;
-  background-color: white;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 2px solid #000;
+  width: 100%;
+  background-color: #fff;
+}
+
+.card__ober-img {
+  position: relative;
+/*  width: var(--width-main); */
+  box-sizing: border-box;
+}
+
+.card img {
+  border-top: 2px solid #000;
+  width: 100%;
+}
+
+.card__over-img__text {
+  font-family: "PressStart2P-Regular";
+  font-size: 14px;
+  position: absolute;
+  top: 25px;
+  right: var(--margin-left-label);
+}
+
+@supports (-webkit-text-stroke: 1px #fff) {
+
+  .card__over-img__text {
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.5);
+  }
+}
+
+@supports (text-stroke: 1px #fff) {
+
+  .card__over-img__text {
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.5);
+  }
 }
 
 .card__title {
-  font-variation-settings: 'wght' var(--card-title-font-weight, 700);
+  background-color: #fff;
+  font-weight: 700;
+  font-style: bold;
   font-size: 18px;
-  margin: 5px 10px ;
+  margin-left: 10px;
+  margin-bottom: 6px;
+  padding-top: 4px;
 }
 
-.card__image-container {
-  position: relative;
-  border: 2px solid black;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-}
+@supports (font-variation-settings: "wght" 700) {
 
-.card__logo {
-  position: absolute;
-  z-index: 2;
-  inset-block-start: 25px;
-  inset-inline-end: calc(25/696*100%);
-  text-shadow: -1px 0 white, 1px 0 white, 0 -1px white, 0  1px white;
-  opacity: 0.5;
-  mix-blend-mode: hard-light;
-  font-family: var(--accent-font);
-  font-size: 14px;
-}
-
-@supports ((text-stroke: 1px white) or (-webkit-text-stroke: 1px white)) {
-  .card__logo {
-    -webkit-text-stroke: 1px white;
-    text-stroke: 1px white;
-    text-shadow: none;
+  .card__title {
+    font-variation-settings: "wght" 700;
   }
 }
 
-.card__image {
-  object-fit: cover;
-  object-position: right;
-  inline-size: 100%;
-  block-size: 100%;
+.card__text {
+  margin: 25px;
 }
 
-.first-image {
-  filter: blur(5px);
+.card__epigr {
+  margin: 0 25px 25px;
 }
 
-.second-image {
-  filter: brightness(1.5);
-}
-
-.third-image {
-  filter: contrast(150%);
-}
-
-.fourth-image {
-  filter: grayscale(1);
-}
-
-.fifth-image {
-  filter: invert(1);
-}
-
-.sixth-image {
-  filter: saturate(2);
-}
-
-.seventh-image {
-  filter: sepia(0.5);
-}
-
-.eighth-image {
-  filter: blur(4px) brightness(1.2) contrast(140%) saturate(1.3);
-}
-
-.card__description {
-  border-top: 2px solid black;
-  padding: 26px 25.85px 0 25px;
-  font-size: 18px;
-  line-height: 21px;
-}
-
-.card__description p:first-child {
-  margin-block-end: 27px;
-}
-
-.card__controls {
+.card__conteiner-buttons {
   display: flex;
-  justify-content: flex-end;
-  gap: 7px;
-  padding: 25px;
-}
-
-.card__like-button {
-  inline-size: 130px;
-  block-size: 38px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border: 2px solid black;
-  cursor: pointer;
-  font-family: var(--accent-font);
-  font-size: 14px;
-  line-height: 0.9;
+  gap: 12px;
+  width: min-content;
+  height: min-content;
+  margin: auto 25px 25px auto;
 }
 
 .card__icon-button {
-  inline-size: 39px;
-  block-size: 39px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: border-color 0.3s ease;
+  width: min-content;
+  height: min-content;
+  margin-top: 4px;
+  background-color: #fff;
+  border: none;
+  padding: 0;
 }
 
-.footer {
-  display: flex;
-  justify-content: center;
-  margin-block: 50px 103px;
-}
-
-.button-save {
-  display: flex;
-  justify-content: center;
-  background-color: white;
-  align-items: center;
-  gap: 8px;
-  border: 2px solid black;
-  padding: 15px 20px 15px 20px;
-}
-
-.button__text {
-  font-family: var(--accent-font);
-  font-size: 14px;
-  line-height: 0.9;
-}
-
-.popup[open] {
-  margin: auto;
-  display: grid;
-  gap: 30px;
-  border: 2px solid black;
-  inline-size: calc(353/1440 * 100vw);
-  padding: 26px 30px;
-  font-family: var(--accent-font);
-  font-size: 14px;
-  line-height: 1.5;
-  text-transform: uppercase;
+.card__like-button {
+  position: relative;
+  width: 130px;
+  height: 38px;
+  background-color: #fff;
+  border: none;
+  outline: 2px solid #000;
+  transition: color 0.5s ease-in-out;
   overflow: hidden;
 }
 
-.popup[open]::backdrop {
-  background-color: black;
-  opacity: 0.75;
+.save-button::after, .dialog__close::after, .card__like-button::after {    
+   content: "";
+    position: absolute;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    background: #000;
+    filter: hue-rotate(180deg);
+    transition: left 0.3s ease;
+  }
+  
+.save-button:hover::after, .dialog__close:hover::after, .card__like-button:hover::after {
+  left: 0;
+ }
+
+.button__text {
+  position: relative;
+  font-family: "PressStart2P-Regular";
+  font-size: 14px;
+  z-index: 100;
 }
 
-.popup__content {
-  display: flex;
-  gap: 20px;
-  align-items: center;
+.card__icon-size {
+  width: 27px;
+  height: 24px;
 }
 
-.popup__close-button {
+.save-button {
+  position: relative;
+  width: var(--width-save);
+  height: var(--height-save);
+  margin: 0 var(--margin-save) 102px var(--margin-save);
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid black;
-  inline-size: 100%;
-  background-color: white;
+  gap: 8px;
+  border: none;
+  outline: 2px solid #000;
+  transition: box-shadow 0.3s ease;
+  overflow: hidden;
 }
 
-.popup__button-container .button__text {
-  line-height: 0.9;
-  padding-block: 12.5px;
+.save-button__disketto {
+  position: relative;
+  width: 21px;
+  margin-top: 2px;
+  z-index: 100;
+}
+
+.save-button__text {
+  font-family: "PressStart2P-Regular";
+  font-size: 14px;
+  position: relative;
+  z-index: 100;
+}
+
+/* градиенты на карточки */
+
+.grad1 {
+  filter: saturate(38%) brightness(80%);
+}
+
+.grad2 {
+  filter: saturate(458%) contrast(160%);
+}
+
+.grad3 {
+  filter: hue-rotate(45deg) saturate(108%);
+}
+
+.grad4 {
+  filter: hue-rotate(45deg) invert(0.8);
+}
+
+.grad5 {
+  filter: sepia(80%);
+}
+
+.grad6 {
+  filter: blur(1rem);
+}
+
+.grad7 {
+  filter: blur(0.2rem) hue-rotate(90deg) sepia(20%);
 }
 
 @media (width <= 375px) {
-  .header {
-    inline-size: 100dvw;
-    block-size: calc(327/667 * 100dvh);
+
+  :root {
+    --width-main: clamp(375px, 100vw, 700px);
+    --font-size: 18px;
+    --height-welcome: 327px;
+    --height-card__title: 31px;
+    --h1-welcome: 49px;
+    --h2-welcome: 14px;
+    --margin-save: 35px;
+    --width-save: 306px;
+    --height-save: 80px;
+    --margin-left-label: 11px;
+    --width-dialog-text: 198px;
+    --width-dialog-button-close: 257px;
   }
 
-  .card {
-    inline-size: 100dvw;
-  }
-
-  .card__logo {
-    inset-block-start: 23px;
-    inset-inline-end: 10px;
-  }
-
-  .card:nth-child(7) .card__description {
-    padding: 26px 30px 0 25px;
-  }
-
-  .card__title {
-    margin: 4px 10px 6px 10px ;
-  }
-
-  .footer {
-    margin-block: 52px 100px;
-  }
-
-  .button-save {
+  .save-button {
     flex-direction: column;
   }
 
-  .save-icon {
-    inline-size: 28px;
-    block-size: 28px;
+  .save-button__disketto {
+    width: 28px;
+    margin-top: 2px;
   }
-
-  .popup[open] {
-    inline-size: calc(337/375 * 100vw);
-    padding: 26px 42px;
-  }
-}
-
-.card__like-button,
-.button-save,
-.popup__close-button {
-  position: relative;
-  transition: box-shadow 0.3s ease;
-}
-
-.card__like-button::before,
-.button-save::before,
-.popup__close-button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: var(--accent-color);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s ease-in-out;
-}
-
-.card__like-button:hover::before,
-.button-save:hover::before,
-.popup__close-button:hover::before {
-  transform: scaleX(1);
 }
 
 .card__like-button:focus,
-.button-save:focus,
-.popup__close-button:focus {
-  outline: none;
-  box-shadow: 2px 2px var(--accent-color);
+.save-button:focus,
+.dialog__close:focus {
+  box-shadow: 4px 4px 0 rgb(0 0 0 / 1);
 }
 
-.button__text,
-.save-icon {
-  position: relative;
-  z-index: 2;
+.card__like-button:focus-visible,
+.save-button:focus-visible,
+.dialog__close:focus-visible {
+  outline: 2px solid var(--color);
+}
+
+.card__like-button:hover, .save-button:hover,
+.dialog__close:hover {
   color: #fff;
-  mix-blend-mode: difference;
+  transition:
+    color 0.2s ease-in;
 }
 
-.save-icon {
-  fill: #fff;
-}
 
-.card__icon-button:focus {
-  outline: none;
-}
-
-.card__icon-button:focus-visible {
-  border-color: var(--accent-color);
-}
-
-.like-icon .core {
-  fill: transparent;
-  transition: fill 0.3s ease 0.03s;
-}
-
-.like-icon .main-body {
-  fill: transparent;
-  transition: fill 0.3s ease;
-}
-
-.like-icon .sparks {
-  opacity: 0;
-}
-
-.like-icon .heart {
-  transform-origin: center;
-}
-
-.like-icon:hover .core {
-  fill: var(--heart-contour-color);
-  transition: fill 0.3s ease;
-}
-
-.like-icon:hover .main-body {
-  fill: var(--heart-contour-color);
-  transition: fill 0.3s ease 0.05s;
-}
-
-.like-icon:active .core,
-.like-icon:active .main-body {
-  fill: var(--heart-fill-color);
-  transition: fill 0.3s ease;
-}
-
-.like-icon.is-liked .core,
-.like-icon.is-liked .main-body {
-  fill: var(--heart-fill-color);
-  transition: fill 0.3s ease;
-}
-
-.like-icon.is-liked .contour {
-  fill: var(--heart-fill-color);
-  transition: fill 0.3s ease 0.06s;
-}
-
-.like-icon:not(.is-liked) .contour {
-  transition: fill 0.1s linear;
+.save-button:hover .save-button__disketto {
+  filter: invert(1);
+  transition: invert 0.5s ease-in-out;
 }
