@@ -30,7 +30,6 @@
   transition: fill var(--time_step) ease 0s;
 }
 
-/* hover, active */
 
 .card__icon-button:hover .core {
   fill: var(--heart-contour-color);
