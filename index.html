@@ -1,482 +1,348 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Закрывающий тег</title>
-    <link rel="stylesheet" href="./fonts/fonts.css" />
-    <link rel="stylesheet" href="./styles/variables.css" />
-    <link rel="stylesheet" href="./styles/globals.css" />
-    <link rel="stylesheet" href="./styles/style.css" />
-    <link rel="stylesheet" href="./styles/animations.css" />
-  </head>
-  <body class="page">
-    <header class="header"></header>
-    <!-- А как по смыслу в макете тут хэдером можно назвать что-то-->
-    <main class="main-flex">
-      <!-- Верхний прямоугольник -->
-      <div class="card-welcome">
-        <h1 class="card-welcome-h1">&lt;/HTML&gt;</h1>
-        <h2 class="card-welcome-h2">закрывающий тег</h2>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List | Сервис задач</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .todo-container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      padding: 1.5rem;
+    }
+
+    .todo-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .todo-header h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .todo-form {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .todo-input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 1rem;
+      font-size: 1rem;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .todo-input:focus {
+      border-color: #764ba2;
+      box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+    }
+
+    .todo-add-button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 0 1.8rem;
+      border-radius: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    .todo-add-button:hover {
+      opacity: 0.9;
+      transform: scale(0.98);
+    }
+
+    .todo-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.9rem 1.2rem;
+      background: #f8fafc;
+      border-radius: 1rem;
+      transition: all 0.2s;
+      border: 1px solid #e2e8f0;
+    }
+
+    .todo-item:hover {
+      background: #f1f5f9;
+      transform: translateX(4px);
+    }
+
+    .todo-item-text {
+      flex: 1;
+      font-size: 1rem;
+      color: #1e293b;
+      word-break: break-word;
+      outline: none;
+      padding: 0.2rem 0;
+    }
+
+    .todo-item-text[contenteditable="true"] {
+      background: #ffffff;
+      border-bottom: 2px solid #764ba2;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.5rem;
+    }
+
+    .todo-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .todo-button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 0.6rem;
+      transition: all 0.1s;
+      font-weight: 500;
+    }
+
+    .todo-button:hover {
+      transform: scale(1.05);
+    }
+
+    .todo-button:active {
+      transform: scale(0.95);
+    }
+
+    .todo-button-edit {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .todo-button-duplicate {
+      background: #10b981;
+      color: white;
+    }
+
+    .todo-button-delete {
+      background: #ef4444;
+      color: white;
+    }
+
+    .empty-message {
+      text-align: center;
+      color: #94a3b8;
+      padding: 2rem;
+      font-style: italic;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 1rem;
+      }
+      .todo-container {
+        padding: 1rem;
+      }
+      .todo-form {
+        flex-direction: column;
+      }
+      .todo-add-button {
+        padding: 0.7rem;
+      }
+      .todo-item {
+        flex-wrap: wrap;
+      }
+      .todo-buttons {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <div class="todo-header">
+      <h1>📋 Список дел</h1>
+      <p style="color: #64748b; margin-top: 0.5rem;">Добавляй, копируй, редактируй — данные сохранятся</p>
+    </div>
+
+    <form class="todo-form" id="todo-form">
+      <input type="text" class="todo-input" id="todo-input" placeholder="Например: Изучить JavaScript" autocomplete="off">
+      <button type="submit" class="todo-add-button">➕ Добавить</button>
+    </form>
+
+    <ul class="todo-list" id="todo-list"></ul>
+  </div>
+
+  <template id="todo-item-template">
+    <li class="todo-item">
+      <span class="todo-item-text"></span>
+      <div class="todo-buttons">
+        <button class="todo-button todo-button-edit" aria-label="Редактировать">✏️</button>
+        <button class="todo-button todo-button-duplicate" aria-label="Копировать">📋</button>
+        <button class="todo-button todo-button-delete" aria-label="Удалить">🗑️</button>
       </div>
+    </li>
+  </template>
 
-      <!-- Карточка 1-->
-      <section class="card">
-        <p class="card__title">Фритрек и нулевой спринт: Подготовка к работе</p>
-        <div class="card__ober-img">
-          <img src="images/food-one.png" alt="" />
-          <span class="card__over-img__text">&lt;/HTML&gt;</span>
-        </div>
-        <p class="card__text">
-          Это было самое начало пути. На этом этапе важно было проникнуться
-          основами и настроиться на учёбу. И, возможно, подумать, как новые
-          знания могут повлиять на ваше будущее.
-        </p>
-        <p class="card__epigr">
-          Место для ваших воспоминаний о начале обучения.
-        </p>
-        <div class="card__conteiner-buttons">
-          <button type="button" class="card__icon-button">
-            <svg
-              class="like-icon"
-              width="39"
-              height="36"
-              viewBox="0 0 39 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g class="heart">
-                <path
-                  class="contour"
-                  d="M12 6H9V9H12V6ZM15 6H12V9H15V6ZM9 9H6V12H9V9ZM9 12H6V15H9V12ZM9 15H6V18H9V15ZM18 6H15V9H18V6ZM12 18H9V21H12V18ZM15 21H12V24H15V21ZM18 24H15V27H18V24ZM27 6H30V9H27V6ZM24 6H27V9H24V6ZM30 9H33V12H30V9ZM30 12H33V15H30V12ZM30 15H33V18H30V15ZM21 6H24V9H21V6ZM27 18H30V21H27V18ZM24 21H27V24H24V21ZM21 24H24V27H21V24ZM21 27H18V30H21V27ZM21 9H18V12H21V9Z"
-                  fill="var(--heart-contour-color)"
-                />
-                <path
-                  class="main-body"
-                  d="M12 9H9V12H12V9ZM15 12H12V15H15V12ZM18 9H15V12H18V9ZM12 15H9V18H12V15ZM15 15H12V18H15V15ZM15 18H12V21H15V18ZM18 12H15V15H18V12ZM18 21H15V24H18V21ZM18 18H15V21H18V18ZM27 9H30V12H27V9ZM24 9H27V12H24V9ZM27 12H30V15H27V12ZM24 12H27V15H24V12ZM21 9H24V12H21V9ZM27 15H30V18H27V15ZM24 15H27V18H24V15ZM24 18H27V21H24V18ZM21 12H24V15H21V12ZM21 21H24V24H21V21ZM21 18H24V21H21V18ZM21 21H18V24H21V21ZM21 24H18V27H21V24Z"
-                  fill="none"
-                />
-                <path
-                  class="core"
-                  d="M18 15H15V18H18V15ZM21 15H24V18H21V15ZM21 15H18V18H21V15ZM21 12H18V15H21V12ZM21 18H18V21H21V18Z"
-                  fill="none"
-                />
-                <path class="sparks" d="M36 13H39V16H36V13ZM27 27H30V30H27V27ZM18 33H21V36H18V33ZM9 27H12V30H9V27ZM24 0H27V3H24V0ZM33 3H36V6H33V3ZM3 3H6V6H3V3ZM12 0H15V3H12V0ZM0 13H3V16H0V13Z" fill="none"></path>
-              </g>
-            </svg>
-          </button>
-          <button type="button" class="card__like-button">
-            <span class="button__text"> Like </span>
-          </button>
-        </div>
-      </section>
-      <!-- Конец карточки -->
+  <script>
+    const formElement = document.getElementById('todo-form');
+    const inputElement = document.getElementById('todo-input');
+    const listElement = document.getElementById('todo-list');
+    const template = document.getElementById('todo-item-template');
 
-      <!-- Карточка 2-->
-      <section class="card">
-        <p class="card__title">1 спринт: Я — чистый лист</p>
-        <div class="card__ober-img">
-          <img class="grad1" src="images/food-one.png" alt="" />
-          <span class="card__over-img__text">&lt;/HTML&gt;</span>
-        </div>
-        <p class="card__text">
-          На первых этапах мы работали со страхами и сомнениями, которые часто
-          испытывают новички. Один из них — страх перед чистым листом. Это,
-          конечно же, намного сложнее, чем боязнь куска бумаги. Часто за этим
-          ощущением скрываются более глубокие вопросы: с чего начать? а вдруг
-          будет слишком сложно? что, если я не справлюсь?
-        </p>
-        <p class="card__epigr">
-          Место для ваших воспоминаний о начале первого спринта.
-        </p>
-        <div class="card__conteiner-buttons">
-          <button type="button" class="card__icon-button">
-            <svg
-              class="like-icon"
-              width="39"
-              height="36"
-              viewBox="0 0 39 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g class="heart">
-                <path
-                  class="contour"
-                  d="M12 6H9V9H12V6ZM15 6H12V9H15V6ZM9 9H6V12H9V9ZM9 12H6V15H9V12ZM9 15H6V18H9V15ZM18 6H15V9H18V6ZM12 18H9V21H12V18ZM15 21H12V24H15V21ZM18 24H15V27H18V24ZM27 6H30V9H27V6ZM24 6H27V9H24V6ZM30 9H33V12H30V9ZM30 12H33V15H30V12ZM30 15H33V18H30V15ZM21 6H24V9H21V6ZM27 18H30V21H27V18ZM24 21H27V24H24V21ZM21 24H24V27H21V24ZM21 27H18V30H21V27ZM21 9H18V12H21V9Z"
-                  fill="var(--heart-contour-color)"
-                />
-                <path
-                  class="main-body"
-                  d="M12 9H9V12H12V9ZM15 12H12V15H15V12ZM18 9H15V12H18V9ZM12 15H9V18H12V15ZM15 15H12V18H15V15ZM15 18H12V21H15V18ZM18 12H15V15H18V12ZM18 21H15V24H18V21ZM18 18H15V21H18V18ZM27 9H30V12H27V9ZM24 9H27V12H24V9ZM27 12H30V15H27V12ZM24 12H27V15H24V12ZM21 9H24V12H21V9ZM27 15H30V18H27V15ZM24 15H27V18H24V15ZM24 18H27V21H24V18ZM21 12H24V15H21V12ZM21 21H24V24H21V21ZM21 18H24V21H21V18ZM21 21H18V24H21V21ZM21 24H18V27H21V24Z"
-                  fill="none"
-                />
-                <path
-                  class="core"
-                  d="M18 15H15V18H18V15ZM21 15H24V18H21V15ZM21 15H18V18H21V15ZM21 12H18V15H21V12ZM21 18H18V21H21V18Z"
-                  fill="none"
-                />
-                <path class="sparks" d="M36 13H39V16H36V13ZM27 27H30V30H27V27ZM18 33H21V36H18V33ZM9 27H12V30H9V27ZM24 0H27V3H24V0ZM33 3H36V6H33V3ZM3 3H6V6H3V3ZM12 0H15V3H12V0ZM0 13H3V16H0V13Z" fill="none"></path>
-              </g>
-            </svg>
-          </button>
-          <button type="button" class="card__like-button">
-            <span class="button__text"> Like </span>
-          </button>
-        </div>
-      </section>
-      <!-- Конец карточки -->
+    let items = [
+      'Выучить основы JavaScript',
+      'Сделать проект To-Do',
+      'Разобраться с localStorage',
+      'Написать функцию createItem',
+      'Добавить обработчики событий',
+      '✨ Сдать проект на проверку ✨'
+    ];
 
-      <!-- Карточка 3-->
-      <section class="card">
-        <p class="card__title">1 спринт: А если не получится?</p>
-        <div class="card__ober-img">
-          <img class="grad2" src="images/food-one.png" alt="" />
-          <span class="card__over-img__text">CSS</span>
-        </div>
-        <p class="card__text">
-          Первый проект — позади! Но это всё ещё самое начало пути. Радость
-          могла быстро померкнуть и смениться ожиданием провала. Или вы,
-          наоборот, могли вдохновиться успехами и поверить в себя.
-        </p>
-        <p class="card__epigr">
-          Место для ваших воспоминаний об окончании первого спринта.
-        </p>
-        <div class="card__conteiner-buttons">
-          <button type="button" class="card__icon-button">
-            <svg
-              class="like-icon"
-              width="39"
-              height="36"
-              viewBox="0 0 39 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g class="heart">
-                <path
-                  class="contour"
-                  d="M12 6H9V9H12V6ZM15 6H12V9H15V6ZM9 9H6V12H9V9ZM9 12H6V15H9V12ZM9 15H6V18H9V15ZM18 6H15V9H18V6ZM12 18H9V21H12V18ZM15 21H12V24H15V21ZM18 24H15V27H18V24ZM27 6H30V9H27V6ZM24 6H27V9H24V6ZM30 9H33V12H30V9ZM30 12H33V15H30V12ZM30 15H33V18H30V15ZM21 6H24V9H21V6ZM27 18H30V21H27V18ZM24 21H27V24H24V21ZM21 24H24V27H21V24ZM21 27H18V30H21V27ZM21 9H18V12H21V9Z"
-                  fill="var(--heart-contour-color)"
-                />
-                <path
-                  class="main-body"
-                  d="M12 9H9V12H12V9ZM15 12H12V15H15V12ZM18 9H15V12H18V9ZM12 15H9V18H12V15ZM15 15H12V18H15V15ZM15 18H12V21H15V18ZM18 12H15V15H18V12ZM18 21H15V24H18V21ZM18 18H15V21H18V18ZM27 9H30V12H27V9ZM24 9H27V12H24V9ZM27 12H30V15H27V12ZM24 12H27V15H24V12ZM21 9H24V12H21V9ZM27 15H30V18H27V15ZM24 15H27V18H24V15ZM24 18H27V21H24V18ZM21 12H24V15H21V12ZM21 21H24V24H21V21ZM21 18H24V21H21V18ZM21 21H18V24H21V21ZM21 24H18V27H21V24Z"
-                  fill="none"
-                />
-                <path
-                  class="core"
-                  d="M18 15H15V18H18V15ZM21 15H24V18H21V15ZM21 15H18V18H21V15ZM21 12H18V15H21V12ZM21 18H18V21H21V18Z"
-                  fill="none"
-                />
-                <path class="sparks" d="M36 13H39V16H36V13ZM27 27H30V30H27V27ZM18 33H21V36H18V33ZM9 27H12V30H9V27ZM24 0H27V3H24V0ZM33 3H36V6H33V3ZM3 3H6V6H3V3ZM12 0H15V3H12V0ZM0 13H3V16H0V13Z" fill="none"></path>g
-              </g>
-            </svg>
-          </button>
-          <button type="button" class="card__like-button">
-            <span class="button__text"> Like </span>
-          </button>
-        </div>
-      </section>
-      <!-- Конец карточки -->
+    function loadTasks() {
+      const savedTasks = localStorage.getItem('todoTasks');
+      if (savedTasks) {
+        try {
+          const parsed = JSON.parse(savedTasks);
+          if (Array.isArray(parsed)) {
+            return parsed;
+          }
+        } catch(e) {
+          console.warn('Ошибка парсинга localStorage');
+        }
+      }
+      return [...items]; 
+    }
 
-      <!-- Карточка 4-->
-      <section class="card">
-        <p class="card__title">2 спринт: Погоня за идеалом</p>
-        <div class="card__ober-img">
-          <img class="grad3" src="images/food-one.png" alt="" />
-          <span class="card__over-img__text">&lt;desigions&gt;</span>
-        </div>
-        <p class="card__text">
-          На этом этапе вы уже достаточно разбирались в основах вёрстки, чтобы
-          понять, как много ещё впереди. Вы могли попытаться погнаться за
-          идеалом и понять, что он недостижим. А, может, вы вовсе и не
-          подвержены перфекционизму и вместо того, чтобы сделать идеально,
-          старались просто сделать..
-        </p>
-        <p class="card__epigr">
-          Место для ваших воспоминаний о начале второго спринта.
-        </p>
-        <div class="card__conteiner-buttons">
-          <button type="button" class="card__icon-button">
-            <svg
-              class="like-icon"
-              width="39"
-              height="36"
-              viewBox="0 0 39 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g class="heart">
-                <path
-                  class="contour"
-                  d="M12 6H9V9H12V6ZM15 6H12V9H15V6ZM9 9H6V12H9V9ZM9 12H6V15H9V12ZM9 15H6V18H9V15ZM18 6H15V9H18V6ZM12 18H9V21H12V18ZM15 21H12V24H15V21ZM18 24H15V27H18V24ZM27 6H30V9H27V6ZM24 6H27V9H24V6ZM30 9H33V12H30V9ZM30 12H33V15H30V12ZM30 15H33V18H30V15ZM21 6H24V9H21V6ZM27 18H30V21H27V18ZM24 21H27V24H24V21ZM21 24H24V27H21V24ZM21 27H18V30H21V27ZM21 9H18V12H21V9Z"
-                  fill="var(--heart-contour-color)"
-                />
-                <path
-                  class="main-body"
-                  d="M12 9H9V12H12V9ZM15 12H12V15H15V12ZM18 9H15V12H18V9ZM12 15H9V18H12V15ZM15 15H12V18H15V15ZM15 18H12V21H15V18ZM18 12H15V15H18V12ZM18 21H15V24H18V21ZM18 18H15V21H18V18ZM27 9H30V12H27V9ZM24 9H27V12H24V9ZM27 12H30V15H27V12ZM24 12H27V15H24V12ZM21 9H24V12H21V9ZM27 15H30V18H27V15ZM24 15H27V18H24V15ZM24 18H27V21H24V18ZM21 12H24V15H21V12ZM21 21H24V24H21V21ZM21 18H24V21H21V18ZM21 21H18V24H21V21ZM21 24H18V27H21V24Z"
-                  fill="none"
-                />
-                <path
-                  class="core"
-                  d="M18 15H15V18H18V15ZM21 15H24V18H21V15ZM21 15H18V18H21V15ZM21 12H18V15H21V12ZM21 18H18V21H21V18Z"
-                  fill="none"
-                />
-                <path class="sparks" d="M36 13H39V16H36V13ZM27 27H30V30H27V27ZM18 33H21V36H18V33ZM9 27H12V30H9V27ZM24 0H27V3H24V0ZM33 3H36V6H33V3ZM3 3H6V6H3V3ZM12 0H15V3H12V0ZM0 13H3V16H0V13Z" fill="none"></path>g
-              </g>
-            </svg>
-          </button>
-          <button type="button" class="card__like-button">
-            <span class="button__text"> Like </span>
-          </button>
-        </div>
-      </section>
-      <!-- Конец карточки -->
+    function saveTasks(tasksArray) {
+      localStorage.setItem('todoTasks', JSON.stringify(tasksArray));
+    }
 
-      <!-- Карточка 5-->
-      <section class="card">
-        <p class="card__title">2 спринт: О тех, кто рядом</p>
-        <div class="card__ober-img">
-          <img class="grad4" src="images/food-one.png" alt="" />
-          <span class="card__over-img__text">care</span>
-        </div>
-        <p class="card__text">
-          Всё это время вы были не одиноки (хотя, возможно, иногда и
-          чувствовали, что одни против целого мира). Вас окружали одногруппники,
-          команда сопровождения и просто близкие люди, которым можно
-          пожаловаться, если очередной макет просто так не поддавался. Осваивать
-          что-то новое легче, когда рядом есть единомышленники, не правда ли?
-        </p>
-        <p class="card__epigr">
-          Место для ваших воспоминаний об окончании второго спринта.
-        </p>
-        <div class="card__conteiner-buttons">
-          <button type="button" class="card__icon-button">
-            <svg
-              class="like-icon"
-              width="39"
-              height="36"
-              viewBox="0 0 39 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g class="heart">
-                <path
-                  class="contour"
-                  d="M12 6H9V9H12V6ZM15 6H12V9H15V6ZM9 9H6V12H9V9ZM9 12H6V15H9V12ZM9 15H6V18H9V15ZM18 6H15V9H18V6ZM12 18H9V21H12V18ZM15 21H12V24H15V21ZM18 24H15V27H18V24ZM27 6H30V9H27V6ZM24 6H27V9H24V6ZM30 9H33V12H30V9ZM30 12H33V15H30V12ZM30 15H33V18H30V15ZM21 6H24V9H21V6ZM27 18H30V21H27V18ZM24 21H27V24H24V21ZM21 24H24V27H21V24ZM21 27H18V30H21V27ZM21 9H18V12H21V9Z"
-                  fill="var(--heart-contour-color)"
-                />
-                <path
-                  class="main-body"
-                  d="M12 9H9V12H12V9ZM15 12H12V15H15V12ZM18 9H15V12H18V9ZM12 15H9V18H12V15ZM15 15H12V18H15V15ZM15 18H12V21H15V18ZM18 12H15V15H18V12ZM18 21H15V24H18V21ZM18 18H15V21H18V18ZM27 9H30V12H27V9ZM24 9H27V12H24V9ZM27 12H30V15H27V12ZM24 12H27V15H24V12ZM21 9H24V12H21V9ZM27 15H30V18H27V15ZM24 15H27V18H24V15ZM24 18H27V21H24V18ZM21 12H24V15H21V12ZM21 21H24V24H21V21ZM21 18H24V21H21V18ZM21 21H18V24H21V21ZM21 24H18V27H21V24Z"
-                  fill="none"
-                />
-                <path
-                  class="core"
-                  d="M18 15H15V18H18V15ZM21 15H24V18H21V15ZM21 15H18V18H21V15ZM21 12H18V15H21V12ZM21 18H18V21H21V18Z"
-                  fill="none"
-                />
-                <path class="sparks" d="M36 13H39V16H36V13ZM27 27H30V30H27V27ZM18 33H21V36H18V33ZM9 27H12V30H9V27ZM24 0H27V3H24V0ZM33 3H36V6H33V3ZM3 3H6V6H3V3ZM12 0H15V3H12V0ZM0 13H3V16H0V13Z" fill="none"></path>g
-              </g>
-            </svg>
-          </button>
-          <button type="button" class="card__like-button">
-            <span class="button__text"> Like </span>
-          </button>
-        </div>
-      </section>
-      <!-- Конец карточки -->
+    function getTasksFromDOM() {
+      const itemsNamesElements = document.querySelectorAll('.todo-item-text');
+      const tasks = [];
+      itemsNamesElements.forEach((element) => {
+        tasks.push(element.textContent);
+      });
+      return tasks;
+    }
 
-      <!-- Карточка 6-->
-      <section class="card">
-        <p class="card__title">3 спринт: Обходные стратегии</p>
-        <div class="card__ober-img">
-          <img class="grad5" src="images/food-one.png" alt="" />
-          <span class="card__over-img__text">&lt;support&gt;</span>
-        </div>
-        <p class="card__text">
-          На этом курсе вы постоянно решали разные задачи. В какой-то момент вам
-          могло показаться, что решения просто иссякли. Значит, пришло время
-          посмотреть на задачу под другим углом.
-        </p>
-        <p class="card__epigr">
-          Место для ваших воспоминаний о начале третьего спринта.
-        </p>
-        <div class="card__conteiner-buttons">
-          <button type="button" class="card__icon-button">
-            <svg
-              class="like-icon"
-              width="39"
-              height="36"
-              viewBox="0 0 39 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g class="heart">
-                <path
-                  class="contour"
-                  d="M12 6H9V9H12V6ZM15 6H12V9H15V6ZM9 9H6V12H9V9ZM9 12H6V15H9V12ZM9 15H6V18H9V15ZM18 6H15V9H18V6ZM12 18H9V21H12V18ZM15 21H12V24H15V21ZM18 24H15V27H18V24ZM27 6H30V9H27V6ZM24 6H27V9H24V6ZM30 9H33V12H30V9ZM30 12H33V15H30V12ZM30 15H33V18H30V15ZM21 6H24V9H21V6ZM27 18H30V21H27V18ZM24 21H27V24H24V21ZM21 24H24V27H21V24ZM21 27H18V30H21V27ZM21 9H18V12H21V9Z"
-                  fill="var(--heart-contour-color)"
-                />
-                <path
-                  class="main-body"
-                  d="M12 9H9V12H12V9ZM15 12H12V15H15V12ZM18 9H15V12H18V9ZM12 15H9V18H12V15ZM15 15H12V18H15V15ZM15 18H12V21H15V18ZM18 12H15V15H18V12ZM18 21H15V24H18V21ZM18 18H15V21H18V18ZM27 9H30V12H27V9ZM24 9H27V12H24V9ZM27 12H30V15H27V12ZM24 12H27V15H24V12ZM21 9H24V12H21V9ZM27 15H30V18H27V15ZM24 15H27V18H24V15ZM24 18H27V21H24V18ZM21 12H24V15H21V12ZM21 21H24V24H21V21ZM21 18H24V21H21V18ZM21 21H18V24H21V21ZM21 24H18V27H21V24Z"
-                  fill="none"
-                />
-                <path
-                  class="core"
-                  d="M18 15H15V18H18V15ZM21 15H24V18H21V15ZM21 15H18V18H21V15ZM21 12H18V15H21V12ZM21 18H18V21H21V18Z"
-                  fill="none"
-                />
-                <path class="sparks" d="M36 13H39V16H36V13ZM27 27H30V30H27V27ZM18 33H21V36H18V33ZM9 27H12V30H9V27ZM24 0H27V3H24V0ZM33 3H36V6H33V3ZM3 3H6V6H3V3ZM12 0H15V3H12V0ZM0 13H3V16H0V13Z" fill="none"></path>g
-              </g>
-            </svg>
-          </button>
-          <button type="button" class="card__like-button">
-            <span class="button__text"> Like </span>
-          </button>
-        </div>
-      </section>
-      <!-- Конец карточки -->
+    function createItem(taskText) {
+      const clone = template.content.cloneNode(true);
+      const taskElement = clone.querySelector('.todo-item');
+      const textElement = taskElement.querySelector('.todo-item-text');
+      const editButton = taskElement.querySelector('.todo-button-edit');
+      const duplicateButton = taskElement.querySelector('.todo-button-duplicate');
+      const deleteButton = taskElement.querySelector('.todo-button-delete');
 
-      <!-- Карточка 7-->
-      <section class="card">
-        <p class="card__title">3 спринт: Когда опускаются руки</p>
-        <div class="card__ober-img">
-          <img class="grad6" src="images/food-one.png" alt="" />
-          <span class="card__over-img__text">&lt;lifes-style: none;&gt;</span>
-        </div>
-        <p class="card__text">
-          Во время учёбы часто возникает чувство, когда не знаешь, за что
-          хвататься. Вроде и проектную пора сдавать, и задачи хочется порешать,
-          и в теории получше разобраться, и жизнь не забыть пожить. В такие
-          моменты очень нужна концентрация. Вспомните, откуда вы её черпали.
-        </p>
-        <p class="card__epigr">
-          Место для ваших воспоминаний об окончании третьего спринта.
-        </p>
-        <div class="card__conteiner-buttons">
-          <button type="button" class="card__icon-button">
-            <svg
-              class="like-icon"
-              width="39"
-              height="36"
-              viewBox="0 0 39 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g class="heart">
-                <path
-                  class="contour"
-                  d="M12 6H9V9H12V6ZM15 6H12V9H15V6ZM9 9H6V12H9V9ZM9 12H6V15H9V12ZM9 15H6V18H9V15ZM18 6H15V9H18V6ZM12 18H9V21H12V18ZM15 21H12V24H15V21ZM18 24H15V27H18V24ZM27 6H30V9H27V6ZM24 6H27V9H24V6ZM30 9H33V12H30V9ZM30 12H33V15H30V12ZM30 15H33V18H30V15ZM21 6H24V9H21V6ZM27 18H30V21H27V18ZM24 21H27V24H24V21ZM21 24H24V27H21V24ZM21 27H18V30H21V27ZM21 9H18V12H21V9Z"
-                  fill="var(--heart-contour-color)"
-                />
-                <path
-                  class="main-body"
-                  d="M12 9H9V12H12V9ZM15 12H12V15H15V12ZM18 9H15V12H18V9ZM12 15H9V18H12V15ZM15 15H12V18H15V15ZM15 18H12V21H15V18ZM18 12H15V15H18V12ZM18 21H15V24H18V21ZM18 18H15V21H18V18ZM27 9H30V12H27V9ZM24 9H27V12H24V9ZM27 12H30V15H27V12ZM24 12H27V15H24V12ZM21 9H24V12H21V9ZM27 15H30V18H27V15ZM24 15H27V18H24V15ZM24 18H27V21H24V18ZM21 12H24V15H21V12ZM21 21H24V24H21V21ZM21 18H24V21H21V18ZM21 21H18V24H21V21ZM21 24H18V27H21V24Z"
-                  fill="none"
-                />
-                <path
-                  class="core"
-                  d="M18 15H15V18H18V15ZM21 15H24V18H21V15ZM21 15H18V18H21V15ZM21 12H18V15H21V12ZM21 18H18V21H21V18Z"
-                  fill="none"
-                />
-                <path class="sparks" d="M36 13H39V16H36V13ZM27 27H30V30H27V27ZM18 33H21V36H18V33ZM9 27H12V30H9V27ZM24 0H27V3H24V0ZM33 3H36V6H33V3ZM3 3H6V6H3V3ZM12 0H15V3H12V0ZM0 13H3V16H0V13Z" fill="none"></path>g
-              </g>
-            </svg>
-          </button>
-          <button type="button" class="card__like-button">
-            <span class="button__text"> Like </span>
-          </button>
-        </div>
-      </section>
-      <!-- Конец карточки -->
+      textElement.textContent = taskText;
 
-      <!-- Карточка 8-->
-      <section class="card">
-        <p class="card__title">«Сейчас я здесь»</p>
-        <div class="card__ober-img">
-          <img class="grad7" src="images/food-one.png" alt="" />
-          <span class="card__over-img__text">&lt;experience&gt;</span>
-        </div>
-        <p class="card__text">
-          Сейчас вы уже очень много знаете о вёрстке. Но это только начало.
-          Во-первых, впереди ещё много материала про «красотищу». Во-вторых, с
-          окончанием курса учёба не заканчивается. Вёрстка — это целый мир. И
-          этот мир постоянно меняется. Познать его полностью не получится, но
-          это тот случай, когда важен сам процесс познания. Ведь часто путь — и
-          есть результат.
-        </p>
-        <p class="card__epigr">
-          Место, чтобы остановиться, подумать и написать, что вы чувствуете в
-          этой точке пути.
-        </p>
-        <div class="card__conteiner-buttons">
-          <button type="button" class="card__icon-button">
-            <svg
-              class="like-icon"
-              width="39"
-              height="36"
-              viewBox="0 0 39 36"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g class="heart">
-                <path
-                  class="contour"
-                  d="M12 6H9V9H12V6ZM15 6H12V9H15V6ZM9 9H6V12H9V9ZM9 12H6V15H9V12ZM9 15H6V18H9V15ZM18 6H15V9H18V6ZM12 18H9V21H12V18ZM15 21H12V24H15V21ZM18 24H15V27H18V24ZM27 6H30V9H27V6ZM24 6H27V9H24V6ZM30 9H33V12H30V9ZM30 12H33V15H30V12ZM30 15H33V18H30V15ZM21 6H24V9H21V6ZM27 18H30V21H27V18ZM24 21H27V24H24V21ZM21 24H24V27H21V24ZM21 27H18V30H21V27ZM21 9H18V12H21V9Z"
-                  fill="var(--heart-contour-color)"
-                />
-                <path
-                  class="main-body"
-                  d="M12 9H9V12H12V9ZM15 12H12V15H15V12ZM18 9H15V12H18V9ZM12 15H9V18H12V15ZM15 15H12V18H15V15ZM15 18H12V21H15V18ZM18 12H15V15H18V12ZM18 21H15V24H18V21ZM18 18H15V21H18V18ZM27 9H30V12H27V9ZM24 9H27V12H24V9ZM27 12H30V15H27V12ZM24 12H27V15H24V12ZM21 9H24V12H21V9ZM27 15H30V18H27V15ZM24 15H27V18H24V15ZM24 18H27V21H24V18ZM21 12H24V15H21V12ZM21 21H24V24H21V21ZM21 18H24V21H21V18ZM21 21H18V24H21V21ZM21 24H18V27H21V24Z"
-                  fill="none"
-                />
-                <path
-                  class="core"
-                  d="M18 15H15V18H18V15ZM21 15H24V18H21V15ZM21 15H18V18H21V15ZM21 12H18V15H21V12ZM21 18H18V21H21V18Z"
-                  fill="none"
-                />
-                
-                <path class="sparks" d="M36 13H39V16H36V13ZM27 27H30V30H27V27ZM18 33H21V36H18V33ZM9 27H12V30H9V27ZM24 0H27V3H24V0ZM33 3H36V6H33V3ZM3 3H6V6H3V3ZM12 0H15V3H12V0ZM0 13H3V16H0V13Z" fill="none"></path>g
-              </g>
-            </svg>
-          </button>
-          <button type="button" class="card__like-button">
-            <span class="button__text"> Like </span>
-          </button>
-        </div>
-      </section>
-      <!-- Конец карточки -->
+      deleteButton.addEventListener('click', () => {
+        taskElement.remove(); 
+        const updatedTasks = getTasksFromDOM();
+        saveTasks(updatedTasks);
+      });
 
-      <button
-        class="save-button"
-        type="button"
-        onclick="window['dialog'].showModal()"
-        aria-controls="dialog"
-      >
-        <svg class="save-button__disketto" viewBox="0 0 41 41">
-          <use href="./svg/floppy.svg" />
-        </svg>
-        <span class="save-button__text">Сохранить на память</span>
-      </button>
-    </main>
-    <dialog id="dialog" class="dialog">
-      <div class="dialog__text-conteiner">
-        <svg class="dialog__text-conteiner__disketto" viewBox="0 0 41 41">
-          <use href="./svg/floppy.svg" />
-        </svg>
-        <span class="dialog__text-conteiner__text"
-          >Вставьте дискету, чтобы продолжить</span
-        >
-      </div>
-      <button
-        type="button"
-        class="dialog__close"
-        onclick="window['dialog'].close();"
-      >
-       <span class="save-button__text"> ок </span>
-      </button>
-    </dialog>
-    <script src="./scripts/like.js"></script>
-  </body>
+      duplicateButton.addEventListener('click', () => {
+        const itemName = textElement.textContent; 
+        const newItem = createItem(itemName);     
+        
+        listElement.prepend(newItem);
+        
+        const allTasks = getTasksFromDOM();
+        saveTasks(allTasks);
+      });
+
+      editButton.addEventListener('click', () => {
+        textElement.setAttribute('contenteditable', 'true');
+        textElement.focus();
+      });
+
+      textElement.addEventListener('blur', () => {
+        if (textElement.getAttribute('contenteditable') === 'true') {
+          textElement.setAttribute('contenteditable', 'false');
+          textElement.textContent = textElement.textContent.trim();
+          
+          const updatedTasks = getTasksFromDOM();
+          saveTasks(updatedTasks);
+        }
+      });
+
+      textElement.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && textElement.getAttribute('contenteditable') === 'true') {
+          e.preventDefault();
+          textElement.blur();
+        }
+      });
+
+      return taskElement; 
+    }
+
+    function handleFormSubmit(event) {
+      event.preventDefault();
+      
+      const taskText = inputElement.value.trim();
+      if (taskText === '') {
+        alert('Пожалуйста, введите текст задачи');
+        return;
+      }
+      
+      const newTaskElement = createItem(taskText);
+      
+      listElement.prepend(newTaskElement);
+      
+      inputElement.value = '';
+      const currentTasks = getTasksFromDOM();
+      saveTasks(currentTasks);
+    }
+
+    function renderAllTasks() {
+      listElement.innerHTML = '';
+      
+      const tasksArray = loadTasks();
+      
+      tasksArray.forEach((task) => {
+        const taskElement = createItem(task);
+        listElement.append(taskElement);
+      });
+    }
+
+    function initApp() {
+      renderAllTasks();
+      
+      formElement.addEventListener('submit', handleFormSubmit);
+    }
+    
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
 </html>
